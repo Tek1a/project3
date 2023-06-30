@@ -1,8 +1,8 @@
 push = require 'push'
 Class = require 'class'
 
-require 'fruit'
-require 'baskets'
+require 'Fruit'
+require 'Baskets'
 
 require 'StateMachine'
 require 'BaseState'
@@ -17,10 +17,12 @@ VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
 
-
+SPEED = 50
 function love.load()
-	
-	math.randomseed(os.time())
+  
+  io.stdout:setvbuf("no")
+  print('debug')
+  math.randomseed(os.time())
 	
 	love.graphics.setDefaultFilter('nearest', 'nearest')
 	love.window.setTitle('game')
@@ -50,16 +52,19 @@ function love.load()
 end
 
 function love.update(dt)
+  
+	stateMachine:update(dt)
 	
 	love.keyboard.keysPressed = {}
 end
 
+
 function love.keypressed(key)
-    love.keyboard.keysPressed[key] = true
-        
-    if key == 'escape' then
-        love.event.quit()
-    end
+	love.keyboard.keysPressed[key] = true
+	
+	if key == 'escape' then
+		love.event.quit()
+	end
 end
 
 function love.keyboard.wasPressed(key)
@@ -69,15 +74,15 @@ function love.keyboard.wasPressed(key)
 		return false
 	end
 end
+
     
 function love.resize(w, h)
 	push:resize(w, h)
 end
 
 function love.draw()
-	love.graphics.clear(0/255, 0/255, 0/255, 255/255)
 	push:start()
-	
+	love.graphics.clear(62/255, 229/255, 43/255, 255/255)
 
 	stateMachine:render()
 	
